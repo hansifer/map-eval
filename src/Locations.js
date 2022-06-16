@@ -1,21 +1,10 @@
-import {
-  Paper,
-  Container,
-  Grid,
-  Button,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Box,
-} from '@mui/material';
+import { Paper, Grid, Button, FormControlLabel, Switch, Box } from '@mui/material';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import RoomIcon from '@mui/icons-material/Room';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
   return (
