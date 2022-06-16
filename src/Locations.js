@@ -29,7 +29,7 @@ export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
         <Grid item container xs justifyContent="flex-end" alignItems="center">
           <FormControlLabel
             control={<Switch checked={isMulti} onChange={onChangeMulti} />}
-            label="Multi"
+            label="Collect"
           />
           <Button variant="contained" size="small" onClick={onClear} disabled={!locations.length}>
             Clear
@@ -49,12 +49,13 @@ export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
         </Box>
       ) : (
         <List sx={{ width: '100%' }} dense={true}>
-          {locations.map(location => (
-            <ListItem>
+          {locations.map((location, i) => (
+            <ListItem key={i}>
               <ListItemIcon>
                 <RoomIcon />
               </ListItemIcon>
-              <ListItemText primary={location} />
+              <ListItemText primary={location.lat} />
+              <ListItemText primary={location.lng} />
             </ListItem>
           ))}
         </List>
