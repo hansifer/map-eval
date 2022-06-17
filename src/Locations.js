@@ -6,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import RoomIcon from '@mui/icons-material/Room';
 
-export function Locations({ locations, isMulti, onChangeMulti, onClear, onLocationClick }) {
+export function Locations({ locations, isCollect, onChangeCollect, onClear, onLocationClick }) {
   return (
     <Paper sx={{ padding: 2 }}>
       <Grid container spacing={2}>
@@ -17,7 +17,7 @@ export function Locations({ locations, isMulti, onChangeMulti, onClear, onLocati
         </Grid>
         <Grid item container xs justifyContent="flex-end" alignItems="center">
           <FormControlLabel
-            control={<Switch checked={isMulti} onChange={onChangeMulti} />}
+            control={<Switch checked={isCollect} onChange={onChangeCollect} />}
             label="Collect"
           />
           <Button variant="contained" size="small" onClick={onClear} disabled={!locations.length}>
