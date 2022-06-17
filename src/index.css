@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* workaround for weird map bubble styles; todo: investigate */
+
+.H_ib_close.H_btn {
+  display: none;
+}
+
+.H_ib.H_ib_top.H_el {
+  display: inline-block;
+  border-radius: 5px;
+  box-shadow: 0 0 13px 2px #42424278;
+}
+
+.H_ib_body {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.H_ib_content {
+  font-size: 12px;
+}

@@ -13,7 +13,9 @@ const queryClient = new QueryClient();
 export const App = () => {
   const mapRef = useRef();
 
+  // const [platform, setPlatform] = useState(null);
   const [map, setMap] = useState(null);
+  const [bubble, setBubble] = useState(null);
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
   const [features, setFeatures] = useState([
@@ -65,11 +67,22 @@ export const App = () => {
     // create default UI components to allow user to interact with them
     const ui = H.ui.UI.createDefault(map, defaultLayers);
 
+    // create info bubble
+    const bubble = new H.ui.InfoBubble(map.getCenter(), {
+      content: '',
+    });
+    bubble.close();
+    ui.addBubble(bubble);
+
+    // setPlatform(platform);
     setMap(map);
+    setBubble(bubble);
 
     return () => {
       map.dispose();
+      setBubble(null);
       setMap(null);
+      // setPlatform(null);
     };
   }, [mapRef]);
 
@@ -136,13 +149,20 @@ export const App = () => {
     const style = provider.getStyle();
 
     if (togglingOff) {
+      // if (feature.id === 'postal-code') {
+      // } else {
       // query, save, and remove the subsection of the style configuration
       // NOTE: the style MUST be in the "READY" state
       feature.styleConfig = style.extractConfig(feature.layerIds);
+      // }
       feature.selected = false;
     } else {
+      // if (feature.id === 'postal-code') {
+      //   showPostalCodes();
+      // } else {
       if (feature.styleConfig) style.mergeConfig(feature.styleConfig);
       feature.styleConfig = null;
+      // }
       feature.selected = true;
     }
 
@@ -150,6 +170,8 @@ export const App = () => {
   };
 
   const addMarker = location => {
+    bubble.close();
+
     const svg = `<svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
   <path fill="${
     location.color || DEFAULT_MARKER_COLOR
@@ -157,13 +179,84 @@ export const App = () => {
 </svg>`;
     const icon = new window.H.map.Icon(svg);
     const marker = new window.H.map.Marker(location, { icon });
+    marker.setData(`This marker was created on ${new Date().toLocaleString()}`);
 
     map.addObject(marker);
+
+    const handleMarkerTap = e => {
+      const marker = e.target;
+
+      bubble.setPosition(marker.getGeometry());
+      bubble.setContent(marker.getData());
+      bubble.open();
+
+      e.stopPropagation();
+    };
+
+    marker.addEventListener('tap', handleMarkerTap);
   };
 
   const removeAllMarkers = () => {
+    // todo: need to remove event listeners from makers explicitly?
     map.removeObjects(map.getObjects().filter(object => object.type === 4));
+    bubble.close();
   };
+
+  // PSTLCB_GEN tile requests 403'd. requires paid subscription?
+  // const showPostalCodes = () => {
+  //   const service = platform.getPlatformDataService();
+
+  //   const H = window.H;
+
+  //   const style = new H.map.SpatialStyle();
+
+  //   // create tile provider and layer that displays postcode boundaries
+  //   const boundariesProvider = new H.service.extension.platformData.TileProvider(
+  //     service,
+  //     {
+  //       layerId: 'PSTLCB_GEN',
+  //       level: 12,
+  //     },
+  //     {
+  //       resultType: H.service.extension.platformData.TileProvider.ResultType.POLYLINE,
+  //       styleCallback: function (data) {
+  //         return style;
+  //       },
+  //     },
+  //   );
+
+  //   const boundaries = new H.map.layer.TileLayer(boundariesProvider);
+  //   map.addLayer(boundaries);
+
+  //   // create tile provider and layer that displays postcode centroids
+  //   const centroidsProvider = new H.service.extension.platformData.TileProvider(
+  //     service,
+  //     {
+  //       layerId: 'PSTLCB_MP',
+  //       level: 12,
+  //     },
+  //     {
+  //       resultType: H.service.extension.platformData.TileProvider.ResultType.MARKER,
+  //     },
+  //   );
+  //   const centroids = new H.map.layer.MarkerTileLayer(centroidsProvider);
+  //   map.addLayer(centroids);
+
+  //   // add event listener that shows popup with basic postal code info
+  //   centroidsProvider.addEventListener('tap', function (ev) {
+  //     const marker = ev.target;
+  //     bubble.setPosition(marker.getGeometry());
+  //     const str =
+  //       '<nobr>Postal code: ' +
+  //       marker.getData().getCell('POSTAL_CODE') +
+  //       '</nobr><br>' +
+  //       'Country code: ' +
+  //       marker.getData().getCell('ISO_COUNTRY_CODE') +
+  //       '<br>';
+  //     bubble.setContent(str);
+  //     bubble.open();
+  //   });
+  // };
 
   return (
     <QueryClientProvider client={queryClient}>
