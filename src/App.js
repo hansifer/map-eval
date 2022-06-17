@@ -19,8 +19,8 @@ export const App = () => {
   const [features, setFeatures] = useState([
     { id: 'country', label: 'Country' },
     { id: 'state', label: 'State' },
-    { id: 'city', label: 'City' },
     { id: 'county', label: 'County' },
+    { id: 'city', label: 'City' },
     { id: 'postal-code', label: 'Postal Code' },
     { id: 'street', label: 'Street' },
   ]);
@@ -81,7 +81,9 @@ export const App = () => {
       };
 
       if (isCollect) {
-        location.color = randomColor();
+        location.color = randomColor({
+          luminosity: 'dark',
+        });
 
         setLocations(locations => {
           const lastLocation = locations[locations.length - 1];
