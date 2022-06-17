@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import { ReactQueryDevtools } from 'react-query/devtools';
 import { Container, Grid, Paper, Typography } from '@mui/material';
-import { LayerSelector } from './LayerSelector';
+import { FeatureSelector } from './FeatureSelector';
 import { Locations } from './Locations';
 import './App.css';
 
@@ -117,8 +117,8 @@ export const App = () => {
               }}
             />
           </Grid>
-          <Grid item xs={6} justifyContent="flex-end">
-            <LayerSelector />
+          <Grid item container xs={6} justifyContent="flex-end">
+            <FeatureSelector />
           </Grid>
         </Grid>
       </Container>
