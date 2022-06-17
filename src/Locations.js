@@ -11,7 +11,7 @@ import {
   ListItemText,
   ListItemIcon,
 } from '@mui/material';
-import RoomIcon from '@mui/icons-material/Room';
+import LocationIcon from '@mui/icons-material/Room';
 import { DEFAULT_MARKER_COLOR } from './consts';
 
 export function Locations({ locations, isCollect, onChangeCollect, onClear, onLocationClick }) {
@@ -50,7 +50,7 @@ export function Locations({ locations, isCollect, onChangeCollect, onClear, onLo
           {locations.map((location, i) => (
             <ListItemButton key={i} onClick={() => onLocationClick(location)}>
               <ListItemIcon>
-                <RoomIcon sx={{ color: location.color || DEFAULT_MARKER_COLOR }} />
+                <LocationIcon sx={{ color: location.color || DEFAULT_MARKER_COLOR }} />
               </ListItemIcon>
               <ListItemText
                 primary={`${location.lat}     ${location.lng}`}
