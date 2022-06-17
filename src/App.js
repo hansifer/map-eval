@@ -43,9 +43,6 @@ export const App = () => {
       pixelRatio: window.devicePixelRatio || 1,
     });
 
-    // ensure map occupies entire container
-    window.addEventListener('resize', () => map.getViewPort().resize());
-
     // enable event system
     const mapEvents = new H.mapevents.MapEvents(map);
 
@@ -66,6 +63,10 @@ export const App = () => {
   // add listener for map tap and mouse events; sets or appends locations
   useEffect(() => {
     if (!map) return;
+
+    // ensure map occupies entire container
+    const handleResize = () => map.getViewPort().resize();
+    window.addEventListener('resize', handleResize);
 
     const handleTap = e => {
       // console.log(e.type, e.currentPointer.type, e);
@@ -100,6 +101,7 @@ export const App = () => {
 
     return () => {
       map.removeEventListener('tap', handleTap);
+      window.removeEventListener('resize', handleResize);
     };
   }, [map, isCollect]);
 
