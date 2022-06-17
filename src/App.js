@@ -43,6 +43,9 @@ export const App = () => {
       pixelRatio: window.devicePixelRatio || 1,
     });
 
+    // ensure map occupies entire container
+    window.addEventListener('resize', () => map.getViewPort().resize());
+
     // enable event system
     const mapEvents = new H.mapevents.MapEvents(map);
 
