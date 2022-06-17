@@ -129,7 +129,7 @@ export const App = () => {
                 setLocations([]);
               }}
               onLocationClick={location => {
-                console.log(location);
+                map.setCenter(location);
               }}
             />
           </Grid>
