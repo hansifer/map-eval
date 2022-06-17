@@ -14,6 +14,14 @@ export const App = () => {
   const [map, setMap] = useState(null);
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
+  const [features, setFeatures] = useState([
+    { id: 'country', label: 'Country' },
+    { id: 'state', label: 'State' },
+    { id: 'city', label: 'City' },
+    { id: 'county', label: 'County' },
+    { id: 'postal-code', label: 'Postal Code' },
+    { id: 'street', label: 'Street' },
+  ]);
 
   // create map instance
   // `useLayoutEffect` renders map sooner than `useEffect`
@@ -118,7 +126,7 @@ export const App = () => {
             />
           </Grid>
           <Grid item container xs={6} justifyContent="flex-end">
-            <FeatureSelector />
+            <FeatureSelector features={features} />
           </Grid>
         </Grid>
       </Container>
