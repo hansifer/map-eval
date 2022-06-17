@@ -78,10 +78,11 @@ export const App = () => {
       const location = {
         lat: coord.lat.toFixed(4),
         lng: coord.lng.toFixed(4),
-        color: randomColor(),
       };
 
       if (isCollect) {
+        location.color = randomColor();
+
         setLocations(locations => {
           const lastLocation = locations[locations.length - 1];
           if (
