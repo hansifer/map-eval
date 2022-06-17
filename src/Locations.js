@@ -1,9 +1,16 @@
-import { Paper, Grid, Button, FormControlLabel, Switch, Box } from '@mui/material';
-import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import {
+  Paper,
+  Grid,
+  Button,
+  FormControlLabel,
+  Switch,
+  Box,
+  List,
+  Typography,
+  ListItemButton,
+  ListItemText,
+  ListItemIcon,
+} from '@mui/material';
 import RoomIcon from '@mui/icons-material/Room';
 
 export function Locations({ locations, isCollect, onChangeCollect, onClear, onLocationClick }) {
