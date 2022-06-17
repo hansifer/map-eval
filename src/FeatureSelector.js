@@ -10,7 +10,7 @@ export const FeatureSelector = ({ features, onFeatureToggled }) => {
             <Checkbox
               edge="end"
               onChange={e => onFeatureToggled(feature.id, e.target.checked)}
-              checked={feature.selected}
+              checked={feature.selected ?? false} // prevent `undefined` to let MUI know this checkbox is controlled
               inputProps={{ 'aria-labelledby': `checkbox-list-secondary-label-${feature.id}` }}
             />
           }
