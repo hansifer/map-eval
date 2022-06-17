@@ -8,6 +8,7 @@ export const FeatureSelector = ({ features, onFeatureToggled }) => {
           key={feature.id}
           secondaryAction={
             <Checkbox
+              disabled={feature.disabled}
               edge="end"
               onChange={() => onFeatureToggled(feature.id)}
               checked={feature.selected ?? false} // prevent `undefined` to let MUI know this checkbox is controlled
@@ -17,6 +18,7 @@ export const FeatureSelector = ({ features, onFeatureToggled }) => {
           disablePadding
         >
           <ListItemButton
+            disabled={feature.disabled}
             onClick={() => {
               onFeatureToggled(feature.id);
             }}
