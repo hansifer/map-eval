@@ -93,8 +93,11 @@ export const App = () => {
           return [...locations, location];
         });
       } else {
+        removeAllMarkers();
         setLocations([location]);
       }
+
+      map.addObject(new window.H.map.Marker(location));
     };
 
     map.addEventListener('tap', handleTap);
@@ -111,6 +114,10 @@ export const App = () => {
         feature.id === id ? { ...feature, selected: !feature.selected } : feature,
       ),
     );
+  };
+
+  const removeAllMarkers = () => {
+    map.removeObjects(map.getObjects().filter(object => object.type === 4));
   };
 
   return (
@@ -132,6 +139,7 @@ export const App = () => {
               }}
               onClear={() => {
                 setLocations([]);
+                removeAllMarkers();
               }}
               onLocationClick={location => {
                 map.setCenter(location);
