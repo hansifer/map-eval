@@ -29,8 +29,9 @@ export function Locations({ locations, isMulti, onChangeMulti, onClear, onLocati
         <Box
           sx={{
             display: 'flex',
-            marginTop: 2,
             justifyContent: 'center',
+            marginTop: 2,
+            paddingBottom: '6px',
             color: '#aaa',
           }}
         >
