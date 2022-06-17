@@ -9,14 +9,18 @@ export const FeatureSelector = ({ features, onFeatureToggled }) => {
           secondaryAction={
             <Checkbox
               edge="end"
-              onChange={e => onFeatureToggled(feature.id, e.target.checked)}
+              onChange={() => onFeatureToggled(feature.id)}
               checked={feature.selected ?? false} // prevent `undefined` to let MUI know this checkbox is controlled
               inputProps={{ 'aria-labelledby': `checkbox-list-secondary-label-${feature.id}` }}
             />
           }
           disablePadding
         >
-          <ListItemButton>
+          <ListItemButton
+            onClick={() => {
+              onFeatureToggled(feature.id);
+            }}
+          >
             <ListItemText id={feature.id} primary={feature.label} />
           </ListItemButton>
         </ListItem>
