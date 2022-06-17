@@ -1,12 +1,12 @@
 import { Paper, Grid, Button, FormControlLabel, Switch, Box } from '@mui/material';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import RoomIcon from '@mui/icons-material/Room';
 
-export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
+export function Locations({ locations, isMulti, onChangeMulti, onClear, onLocationClick }) {
   return (
     <Paper sx={{ padding: 2 }}>
       <Grid container spacing={2}>
@@ -37,9 +37,9 @@ export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
           none
         </Box>
       ) : (
-        <List sx={{ width: '100%' }} dense={true}>
+        <List sx={{ width: '100%', paddingBottom: 0 }} dense={true}>
           {locations.map((location, i) => (
-            <ListItem key={i}>
+            <ListItemButton key={i} onClick={() => onLocationClick(location)}>
               <ListItemIcon>
                 <RoomIcon />
               </ListItemIcon>
@@ -49,7 +49,7 @@ export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
                   whiteSpace: 'pre-wrap',
                 }}
               />
-            </ListItem>
+            </ListItemButton>
           ))}
         </List>
       )}
