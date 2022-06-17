@@ -43,8 +43,12 @@ export function Locations({ locations, isMulti, onClear, onChangeMulti }) {
               <ListItemIcon>
                 <RoomIcon />
               </ListItemIcon>
-              <ListItemText primary={location.lat} />
-              <ListItemText primary={location.lng} />
+              <ListItemText
+                primary={`${location.lat}     ${location.lng}`}
+                sx={{
+                  whiteSpace: 'pre-wrap',
+                }}
+              />
             </ListItem>
           ))}
         </List>
