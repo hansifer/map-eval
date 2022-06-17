@@ -17,12 +17,23 @@ export const App = () => {
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
   const [features, setFeatures] = useState([
-    { id: 'country', label: 'Country' },
-    { id: 'state', label: 'State' },
-    { id: 'county', label: 'County' },
-    { id: 'city', label: 'City' },
-    { id: 'postal-code', label: 'Postal Code' },
-    { id: 'street', label: 'Street' },
+    {
+      id: 'country',
+      label: 'Country',
+      layerIds: ['boundaries.country', 'places.country'],
+      selected: true,
+    },
+    {
+      id: 'state',
+      label: 'State',
+      layerIds: ['boundaries.state', 'places.region'],
+      selected: true,
+    },
+    { id: 'county', label: 'County', layerIds: [], selected: false, disabled: true },
+    { id: 'city', label: 'City', layerIds: ['places.populated-places'], selected: true },
+    { id: 'postal-code', label: 'Postal Code', layerIds: [], selected: false },
+    { id: 'street', label: 'Street', layerIds: ['roads', 'road_labels'], selected: true },
+    { id: 'buildings', label: 'Buildings', layerIds: ['buildings'], selected: true },
   ]);
 
   // create map instance
@@ -115,11 +126,27 @@ export const App = () => {
   }, [map, isCollect]);
 
   const handleFeatureToggled = id => {
-    setFeatures(features =>
-      features.map(feature =>
-        feature.id === id ? { ...feature, selected: !feature.selected } : feature,
-      ),
-    );
+    const feature = features.find(feature => feature.id === id);
+    const togglingOff = feature.selected;
+
+    // get OMV provider from base layer
+    const provider = map.getBaseLayer().getProvider();
+
+    // get style object for base layer
+    const style = provider.getStyle();
+
+    if (togglingOff) {
+      // query, save, and remove the subsection of the style configuration
+      // NOTE: the style MUST be in the "READY" state
+      feature.styleConfig = style.extractConfig(feature.layerIds);
+      feature.selected = false;
+    } else {
+      if (feature.styleConfig) style.mergeConfig(feature.styleConfig);
+      feature.styleConfig = null;
+      feature.selected = true;
+    }
+
+    setFeatures([...features]);
   };
 
   const addMarker = location => {
