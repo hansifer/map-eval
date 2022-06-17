@@ -100,6 +100,14 @@ export const App = () => {
     };
   }, [map, isCollect]);
 
+  const handleFeatureToggled = id => {
+    setFeatures(features =>
+      features.map(feature =>
+        feature.id === id ? { ...feature, selected: !feature.selected } : feature,
+      ),
+    );
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <Container maxWidth="md">
@@ -126,7 +134,7 @@ export const App = () => {
             />
           </Grid>
           <Grid item container xs={6} justifyContent="flex-end">
-            <FeatureSelector features={features} />
+            <FeatureSelector features={features} onFeatureToggled={handleFeatureToggled} />
           </Grid>
         </Grid>
       </Container>
