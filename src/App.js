@@ -5,6 +5,7 @@ import { Container, Grid, Paper, Typography } from '@mui/material';
 import * as randomColor from 'randomcolor';
 import { FeatureSelector } from './FeatureSelector';
 import { Locations } from './Locations';
+import { DEFAULT_MARKER_COLOR } from './consts';
 import './App.css';
 
 const queryClient = new QueryClient();
@@ -121,7 +122,7 @@ export const App = () => {
   const addMarker = location => {
     const svg = `<svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
   <path fill="${
-    location.color || 'rgba(0, 0, 0, 0.54)'
+    location.color || DEFAULT_MARKER_COLOR
   }" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path>
 </svg>`;
     const icon = new window.H.map.Icon(svg);
