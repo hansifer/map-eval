@@ -100,7 +100,7 @@ export const App = () => {
     setBubble(bubble);
 
     return () => {
-      map.dispose();
+      map.dispose(); // raises mapjs-core exceptions (eg, 'Cannot read properties of null')
       setBubble(null);
       setMap(null);
       // setPlatform(null);
