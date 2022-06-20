@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 // import { ReactQueryDevtools } from 'react-query/devtools';
 import { Container, Grid, Paper } from '@mui/material';
 import * as randomColor from 'randomcolor';
-import { FeatureSelector } from './FeatureSelector';
+import { Layers } from './Layers';
 import { Locations } from './Locations';
 import { DEFAULT_MARKER_COLOR } from './consts';
 import './App.css';
@@ -18,7 +18,7 @@ export const App = () => {
   const [bubble, setBubble] = useState(null);
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
-  const [features, setFeatures] = useState([
+  const [layers, setLayers] = useState([
     {
       id: 'country',
       label: 'Country',
@@ -162,9 +162,9 @@ export const App = () => {
     };
   }, [map, isCollect]);
 
-  const handleFeatureToggled = (id) => {
-    const feature = features.find((feature) => feature.id === id);
-    const togglingOff = feature.selected;
+  const handleLayerToggled = (id) => {
+    const layer = layers.find((layer) => layer.id === id);
+    const togglingOff = layer.selected;
 
     // get OMV provider from base layer
     const provider = map.getBaseLayer().getProvider();
@@ -173,24 +173,24 @@ export const App = () => {
     const style = provider.getStyle();
 
     if (togglingOff) {
-      // if (feature.id === 'postal-code') {
+      // if (layer.id === 'postal-code') {
       // } else {
       // query, save, and remove the subsection of the style configuration
       // NOTE: the style MUST be in the "READY" state
-      feature.styleConfig = style.extractConfig(feature.layerIds);
+      layer.styleConfig = style.extractConfig(layer.layerIds);
       // }
-      feature.selected = false;
+      layer.selected = false;
     } else {
-      // if (feature.id === 'postal-code') {
+      // if (layer.id === 'postal-code') {
       //   showPostalCodes();
       // } else {
-      if (feature.styleConfig) style.mergeConfig(feature.styleConfig);
-      feature.styleConfig = null;
+      if (layer.styleConfig) style.mergeConfig(layer.styleConfig);
+      layer.styleConfig = null;
       // }
-      feature.selected = true;
+      layer.selected = true;
     }
 
-    setFeatures([...features]);
+    setLayers([...layers]);
   };
 
   const addMarker = (location) => {
@@ -330,9 +330,9 @@ export const App = () => {
             xs={6}
             justifyContent="flex-end"
           >
-            <FeatureSelector
-              features={features}
-              onFeatureToggled={handleFeatureToggled}
+            <Layers
+              layers={layers}
+              onLayerToggled={handleLayerToggled}
             />
           </Grid>
         </Grid>

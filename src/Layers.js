@@ -8,7 +8,7 @@ import {
   Paper,
 } from '@mui/material';
 
-export const FeatureSelector = ({ features, onFeatureToggled }) => {
+export const Layers = ({ layers, onLayerToggled }) => {
   return (
     <Paper sx={{ padding: 2 }}>
       <Typography
@@ -21,31 +21,31 @@ export const FeatureSelector = ({ features, onFeatureToggled }) => {
         dense
         sx={{ width: 180, maxWidth: 180 }}
       >
-        {features.map((feature) => (
+        {layers.map((layer) => (
           <ListItem
-            key={feature.id}
+            key={layer.id}
             secondaryAction={
               <Checkbox
-                disabled={feature.disabled}
+                disabled={layer.disabled}
                 edge="end"
-                onChange={() => onFeatureToggled(feature.id)}
-                checked={feature.selected ?? false} // prevent `undefined` to let MUI know this checkbox is controlled
+                onChange={() => onLayerToggled(layer.id)}
+                checked={layer.selected ?? false} // prevent `undefined` to let MUI know this checkbox is controlled
                 inputProps={{
-                  'aria-labelledby': `checkbox-list-secondary-label-${feature.id}`,
+                  'aria-labelledby': `checkbox-list-secondary-label-${layer.id}`,
                 }}
               />
             }
             disablePadding
           >
             <ListItemButton
-              disabled={feature.disabled}
+              disabled={layer.disabled}
               onClick={() => {
-                onFeatureToggled(feature.id);
+                onLayerToggled(layer.id);
               }}
             >
               <ListItemText
-                id={feature.id}
-                primary={feature.label}
+                id={layer.id}
+                primary={layer.label}
               />
             </ListItemButton>
           </ListItem>
