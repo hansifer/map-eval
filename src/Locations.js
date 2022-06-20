@@ -74,7 +74,9 @@ export function Locations({
             color: '#aaa',
           }}
         >
-          none
+          {isCollect
+            ? '(click map to add locations)'
+            : '(click map to show location)'}
         </Box>
       ) : (
         <List
