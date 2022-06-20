@@ -10696,6 +10696,16 @@ const config = {
           },
         },
       },
+      park: {
+        filter: {
+          kind: ['park', 'grass'],
+        },
+        draw: {
+          polygons: {
+            color: 'global.park_color',
+          },
+        },
+      },
       national_park: {
         filter: {
           kind: 'national_park',
@@ -10851,16 +10861,6 @@ const config = {
         draw: {
           polygons: {
             color: 'global.industrial_color',
-          },
-        },
-      },
-      park: {
-        filter: {
-          kind: ['park', 'grass'],
-        },
-        draw: {
-          polygons: {
-            color: '#FF0000',
           },
         },
       },
