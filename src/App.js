@@ -31,11 +31,32 @@ export const App = () => {
       layerIds: ['boundaries.state', 'places.region'],
       selected: true,
     },
-    { id: 'county', label: 'County', layerIds: [], selected: false, disabled: true },
-    { id: 'city', label: 'City', layerIds: ['places.populated-places'], selected: true },
+    {
+      id: 'county',
+      label: 'County',
+      layerIds: [],
+      selected: false,
+      disabled: true,
+    },
+    {
+      id: 'city',
+      label: 'City',
+      layerIds: ['places.populated-places'],
+      selected: true,
+    },
     { id: 'postal-code', label: 'Postal Code', layerIds: [], selected: false },
-    { id: 'street', label: 'Street', layerIds: ['roads', 'road_labels'], selected: true },
-    { id: 'buildings', label: 'Buildings', layerIds: ['buildings'], selected: true },
+    {
+      id: 'street',
+      label: 'Street',
+      layerIds: ['roads', 'road_labels'],
+      selected: true,
+    },
+    {
+      id: 'buildings',
+      label: 'Buildings',
+      layerIds: ['buildings'],
+      selected: true,
+    },
   ]);
 
   // create map instance
@@ -94,10 +115,13 @@ export const App = () => {
     const handleResize = () => map.getViewPort().resize();
     window.addEventListener('resize', handleResize);
 
-    const handleTap = e => {
+    const handleTap = (e) => {
       // console.log(e.type, e.currentPointer.type, e);
 
-      const coord = map.screenToGeo(e.currentPointer.viewportX, e.currentPointer.viewportY);
+      const coord = map.screenToGeo(
+        e.currentPointer.viewportX,
+        e.currentPointer.viewportY,
+      );
 
       const location = {
         lat: coord.lat.toFixed(4),
@@ -109,7 +133,7 @@ export const App = () => {
           luminosity: 'dark',
         });
 
-        setLocations(locations => {
+        setLocations((locations) => {
           const lastLocation = locations[locations.length - 1];
           if (
             lastLocation &&
@@ -138,8 +162,8 @@ export const App = () => {
     };
   }, [map, isCollect]);
 
-  const handleFeatureToggled = id => {
-    const feature = features.find(feature => feature.id === id);
+  const handleFeatureToggled = (id) => {
+    const feature = features.find((feature) => feature.id === id);
     const togglingOff = feature.selected;
 
     // get OMV provider from base layer
@@ -169,7 +193,7 @@ export const App = () => {
     setFeatures([...features]);
   };
 
-  const addMarker = location => {
+  const addMarker = (location) => {
     bubble.close();
 
     const svg = `<svg viewBox="0 0 24 24" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
@@ -183,7 +207,7 @@ export const App = () => {
 
     map.addObject(marker);
 
-    const handleMarkerTap = e => {
+    const handleMarkerTap = (e) => {
       const marker = e.target;
 
       bubble.setPosition(marker.getGeometry());
@@ -198,7 +222,7 @@ export const App = () => {
 
   const removeAllMarkers = () => {
     // todo: need to remove event listeners from makers explicitly?
-    map.removeObjects(map.getObjects().filter(object => object.type === 4));
+    map.removeObjects(map.getObjects().filter((object) => object.type === 4));
     bubble.close();
   };
 
@@ -261,31 +285,55 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Container maxWidth="md">
-        <Typography variant="h5" component="div" gutterBottom>
+        <Typography
+          variant="h5"
+          component="div"
+          gutterBottom
+        >
           Map POC
         </Typography>
-        <Paper elevation={8} sx={{ marginBottom: 2 }}>
-          <div ref={mapRef} style={{ height: '500px' }} />
+        <Paper
+          elevation={8}
+          sx={{ marginBottom: 2 }}
+        >
+          <div
+            ref={mapRef}
+            style={{ height: '500px' }}
+          />
         </Paper>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+        <Grid
+          container
+          spacing={2}
+        >
+          <Grid
+            item
+            xs={6}
+          >
             <Locations
               locations={locations}
               isCollect={isCollect}
-              onChangeCollect={event => {
+              onChangeCollect={(event) => {
                 setIsCollect(event.target.checked);
               }}
               onClear={() => {
                 setLocations([]);
                 removeAllMarkers();
               }}
-              onLocationClick={location => {
+              onLocationClick={(location) => {
                 map.setCenter(location);
               }}
             />
           </Grid>
-          <Grid item container xs={6} justifyContent="flex-end">
-            <FeatureSelector features={features} onFeatureToggled={handleFeatureToggled} />
+          <Grid
+            item
+            container
+            xs={6}
+            justifyContent="flex-end"
+          >
+            <FeatureSelector
+              features={features}
+              onFeatureToggled={handleFeatureToggled}
+            />
           </Grid>
         </Grid>
       </Container>
