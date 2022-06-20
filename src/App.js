@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 // import { ReactQueryDevtools } from 'react-query/devtools';
-import { Container, Grid, Paper, Typography } from '@mui/material';
+import { Container, Grid, Paper } from '@mui/material';
 import * as randomColor from 'randomcolor';
 import { FeatureSelector } from './FeatureSelector';
 import { Locations } from './Locations';
@@ -285,13 +285,13 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Container maxWidth="md">
-        <Typography
+        {/* <Typography
           variant="h5"
           component="div"
           gutterBottom
         >
           Map POC
-        </Typography>
+        </Typography> */}
         <Paper
           elevation={8}
           sx={{ marginBottom: 2 }}
