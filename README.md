@@ -24,4 +24,4 @@ The page will reload when you make changes
   - issues:
     - can only toggle layer off and back on once. subsequent toggle does nothing.
     - receiving 403 on postal code tile requests. requires paid subscription?
-    - `map.dispose()` raises mapjs-core exceptions (eg, `Cannot read properties of null`)
+    - `map.dispose()` raises `mapjs-core` exceptions (eg, `Cannot read properties of null`)
