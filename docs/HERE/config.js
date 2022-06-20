@@ -1,4 +1,4 @@
-// result of map.getBaseLayer().getProvider().getStyle().getConfig()
+// result of `map.getBaseLayer().getProvider().getStyle().getConfig()`
 const config = {
   global: {
     label: {
