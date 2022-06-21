@@ -6,6 +6,7 @@ import * as randomColor from 'randomcolor';
 import { Layers } from './Layers';
 import { Locations } from './Locations';
 import { getMarkerSVG } from './utils/marker';
+import { getCustomClusteringTheme } from './utils/vendor/HERE';
 import './App.css';
 
 const queryClient = new QueryClient();
@@ -18,7 +19,7 @@ export const App = () => {
   const [bubble, setBubble] = useState(null);
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
-  const [isCluster, setIsCluster] = useState(false);
+  const [clustered, setClustered] = useState(null); // { layer, provider }
   const [layers, setLayers] = useState([
     {
       id: 'country',
@@ -148,11 +149,11 @@ export const App = () => {
           return [...locations, location];
         });
       } else {
-        removeAllMarkers();
+        clearMarkers();
         setLocations([location]);
       }
 
-      addMarker(location);
+      addMarker(location, clustered);
     };
 
     map.addEventListener('tap', handleTap);
@@ -161,7 +162,7 @@ export const App = () => {
       map.removeEventListener('tap', handleTap);
       window.removeEventListener('resize', handleResize);
     };
-  }, [map, isCollect]);
+  }, [map, isCollect, clustered]);
 
   const handleLayerToggled = (id) => {
     const layer = layers.find((layer) => layer.id === id);
@@ -194,30 +195,93 @@ export const App = () => {
     setLayers([...layers]);
   };
 
-  const addMarker = (location) => {
-    bubble.close();
+  const handleChangeCluster = (checked) => {
+    if (!checked) {
+      if (clustered) {
+        clearMarkers();
+        map.removeLayer(clustered.layer);
+        setClustered(null);
+        locations.forEach((location) => {
+          addMarker(location, false);
+        });
+      }
+    } else {
+      clearMarkers();
 
-    const icon = new window.H.map.Icon(getMarkerSVG(location.color));
-    const marker = new window.H.map.Marker(location, { icon });
-    marker.setData(`This marker was created on ${new Date().toLocaleString()}`);
+      if (clustered) {
+        map.removeLayer(clustered.layer);
+      }
 
-    map.addObject(marker);
+      const H = window.H;
 
-    const handleMarkerTap = (e) => {
-      const marker = e.target;
+      const dataPoints = locations.map(
+        (location) =>
+          new H.clustering.DataPoint(
+            location.lat,
+            location.lng,
+            null,
+            location,
+          ),
+      );
 
-      bubble.setPosition(marker.getGeometry());
-      bubble.setContent(marker.getData());
-      bubble.open();
+      const provider = new H.clustering.Provider(dataPoints, {
+        clusteringOptions: {
+          // maximum radius of the neighbourhood
+          eps: 32,
+          // minimum weight of points required to form a cluster
+          minWeight: 2,
+        },
+      });
 
-      e.stopPropagation();
-    };
+      provider.setTheme(getCustomClusteringTheme(provider.getTheme()));
 
-    marker.addEventListener('tap', handleMarkerTap);
+      const layer = new H.map.layer.ObjectLayer(provider);
+
+      map.addLayer(layer);
+      setClustered({ layer, provider });
+    }
   };
 
-  const removeAllMarkers = () => {
-    // todo: need to remove event listeners from makers explicitly?
+  const addMarker = (location, clustered) => {
+    bubble.close();
+
+    if (clustered) {
+      const H = window.H;
+
+      const dataPoint = new H.clustering.DataPoint(
+        location.lat,
+        location.lng,
+        null,
+        location,
+      );
+
+      clustered.provider.addDataPoint(dataPoint);
+    } else {
+      const icon = new window.H.map.Icon(getMarkerSVG(location.color));
+      const marker = new window.H.map.Marker(location, { icon });
+      marker.setData(
+        `This marker was created on ${new Date().toLocaleString()}`,
+      );
+
+      map.addObject(marker);
+
+      const handleMarkerTap = (e) => {
+        const marker = e.target;
+
+        bubble.setPosition(marker.getGeometry());
+        bubble.setContent(marker.getData());
+        bubble.open();
+
+        e.stopPropagation();
+      };
+
+      marker.addEventListener('tap', handleMarkerTap);
+    }
+  };
+
+  const clearMarkers = () => {
+    clustered?.provider.setDataPoints([]);
+    // todo: need to remove event listeners from markers explicitly?
     map.removeObjects(map.getObjects().filter((object) => object.type === 4));
     bubble.close();
   };
@@ -311,13 +375,11 @@ export const App = () => {
               onChangeCollect={(checked) => {
                 setIsCollect(checked);
               }}
-              isCluster={isCluster}
-              onChangeCluster={(checked) => {
-                setIsCluster(checked);
-              }}
+              isCluster={!!clustered}
+              onChangeCluster={handleChangeCluster}
               onClear={() => {
                 setLocations([]);
-                removeAllMarkers();
+                clearMarkers();
               }}
               onLocationClick={(location) => {
                 map.setCenter(location);
