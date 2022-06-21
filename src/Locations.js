@@ -12,7 +12,7 @@ import {
   ListItemIcon,
 } from '@mui/material';
 import LocationIcon from '@mui/icons-material/Room';
-import { DEFAULT_MARKER_COLOR } from './consts';
+import { DEFAULT_MARKER_COLOR } from './utils/marker';
 
 export function Locations({
   locations,
