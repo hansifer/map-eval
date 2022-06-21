@@ -1,4 +1,4 @@
-import { getMarkerSVG } from '/utils/marker';
+import { getMarkerSVG } from '../marker';
 
 // return object should implement H.clustering.ITheme interface
 export const getCustomClusteringTheme = (defaultTheme) => ({
