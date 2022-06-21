@@ -17,7 +17,9 @@ import { DEFAULT_MARKER_COLOR } from './consts';
 export function Locations({
   locations,
   isCollect,
+  isCluster,
   onChangeCollect,
+  onChangeCluster,
   onClear,
   onLocationClick,
 }) {
@@ -49,7 +51,10 @@ export function Locations({
             control={
               <Switch
                 checked={isCollect}
-                onChange={onChangeCollect}
+                onChange={(e) => {
+                  onChangeCollect(e.target.checked);
+                  onChangeCluster(false);
+                }}
               />
             }
             label="Collect"
@@ -64,6 +69,21 @@ export function Locations({
           </Button>
         </Grid>
       </Grid>
+      {isCollect ? (
+        <Grid>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={isCluster}
+                onChange={(e) => {
+                  onChangeCluster(e.target.checked);
+                }}
+              />
+            }
+            label="Cluster"
+          />
+        </Grid>
+      ) : null}
       {!locations?.length ? (
         <Box
           sx={{
