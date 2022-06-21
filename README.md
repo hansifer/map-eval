@@ -6,6 +6,27 @@
 
 - https://www.here.com/
 
+## Map feature demonstrations
+
+- basic interactivity (pan, zoom, tilt, rotate via mouse/touch/keyboard)
+- click handling
+  - acquire lat/lng
+- symbol rendering
+  - render arbitrary number of symbols at arbitrary lat/lng locations
+  - customize symbol shape and color
+  - display arbitrary associated properties in popup on click or hover
+  - clustering
+- center the map at arbitrary coord
+- render layers
+  - countries
+  - states
+  - counties
+  - cities
+  - streets
+  - postal codes
+    - boundaries
+    - centroids
+
 ## Running locally
 
 `npm start` (opens browser at http://localhost:3000)
