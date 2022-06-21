@@ -37,7 +37,7 @@ export function Locations({
             variant="h6"
             component="div"
           >
-            Clicked locations
+            {isCollect ? 'Clicked locations' : 'Clicked location'}
           </Typography>
         </Grid>
         <Grid
