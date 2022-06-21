@@ -18,6 +18,7 @@ export const App = () => {
   const [bubble, setBubble] = useState(null);
   const [locations, setLocations] = useState([]);
   const [isCollect, setIsCollect] = useState(false);
+  const [isCluster, setIsCluster] = useState(false);
   const [layers, setLayers] = useState([
     {
       id: 'country',
@@ -312,8 +313,12 @@ export const App = () => {
             <Locations
               locations={locations}
               isCollect={isCollect}
-              onChangeCollect={(event) => {
-                setIsCollect(event.target.checked);
+              onChangeCollect={(checked) => {
+                setIsCollect(checked);
+              }}
+              isCluster={isCluster}
+              onChangeCluster={(checked) => {
+                setIsCluster(checked);
               }}
               onClear={() => {
                 setLocations([]);
