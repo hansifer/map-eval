@@ -46,7 +46,13 @@ export const App = () => {
       layerIds: ['places.populated-places'],
       selected: true,
     },
-    { id: 'postal-code', label: 'Postal Code', layerIds: [], selected: false },
+    {
+      id: 'postal-code',
+      label: 'Postal Code',
+      layerIds: [],
+      selected: false,
+      disabled: true,
+    },
     {
       id: 'street',
       label: 'Street',
