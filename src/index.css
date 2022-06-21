@@ -34,3 +34,7 @@ code {
 .H_ib_content {
   font-size: 12px;
 }
+
+.H_logo, .H_copyright {
+  display: none !important;
+}
