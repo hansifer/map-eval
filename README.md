@@ -1,5 +1,7 @@
 # Map Vendor Evaluation
 
+![map-eval](docs/map-eval.png)
+
 ## Vendors
 
 ### HERE Technologies
